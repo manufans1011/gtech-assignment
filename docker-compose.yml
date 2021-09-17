@@ -1,0 +1,16 @@
+version: '3'
+services: 
+    db:
+        image: mongo
+        restart: always
+        ports: 
+            - "27027:27017"
+    app:
+        build: .
+        volumes:
+            - /app/node_modules
+            - .:/app
+        ports:
+            - "3001:3001"
+        depends_on:
+            - db
