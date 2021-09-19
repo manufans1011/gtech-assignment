@@ -29,6 +29,10 @@ router.post('/users/login', async (req, res) => {
     try{
         let id = machineIdSync()
 
+        if(req.device.type === "desktop"){
+            id = id.concat(req.useragent.browser)
+        }
+
         const user = await User.findByCredentials(req.body.username, req.body.password)
         const deviceids = await User.findExistingDevice(req.body.username, id)
         const token = await user.generateAuthToken()
